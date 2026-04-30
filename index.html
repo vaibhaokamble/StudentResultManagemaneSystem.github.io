@@ -1,110 +1,506 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>RTMNU NAGPUR</title>
+    <title>RTMNU NAGPUR – Student Result Management</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" />
+    <style>
+      /* ── Global overrides ── */
+      body { font-family: 'Poppins', sans-serif; overflow-x: hidden; }
+
+      /* ── Animated gradient header ── */
+      #header {
+        background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+        background-size: 300% 100%;
+        animation: headerGrad 8s ease infinite;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+      }
+      @keyframes headerGrad {
+        0%   { background-position: 0%   50%; }
+        50%  { background-position: 100% 50%; }
+        100% { background-position: 0%   50%; }
+      }
+
+      #header .inner { max-width: 1200px; margin: 0 auto; padding: 0 2em; }
+
+      #header nav a {
+        color: rgba(255,255,255,0.85);
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        transition: color 0.3s ease, border-bottom 0.3s ease;
+        padding-bottom: 4px;
+        border-bottom: 2px solid transparent;
+        font-size: 0.95em;
+      }
+      #header nav a:hover {
+        color: #7eb3ff;
+        border-bottom-color: #7eb3ff;
+      }
+
+      /* ── Hero / Banner ── */
+      #banner {
+        position: relative;
+        padding: 8em 0 7em;
+        background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+        overflow: hidden;
+        text-align: center;
+      }
+
+      /* Animated mesh orbs */
+      #banner::before, #banner::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        animation: orbFloat 12s ease-in-out infinite alternate;
+      }
+      #banner::before {
+        width: 600px; height: 600px;
+        background: radial-gradient(circle, rgba(94,154,255,0.25) 0%, transparent 70%);
+        top: -200px; left: -150px;
+      }
+      #banner::after {
+        width: 500px; height: 500px;
+        background: radial-gradient(circle, rgba(118,75,162,0.3) 0%, transparent 70%);
+        bottom: -150px; right: -100px;
+        animation-delay: -6s;
+      }
+      @keyframes orbFloat {
+        0%   { transform: translate(0, 0)   scale(1);   }
+        100% { transform: translate(60px, 40px) scale(1.15); }
+      }
+
+      /* Particle dots */
+      .particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+      .particle {
+        position: absolute;
+        width: 4px; height: 4px;
+        background: rgba(255,255,255,0.5);
+        border-radius: 50%;
+        animation: particleDrift linear infinite;
+      }
+
+      #banner .inner {
+        position: relative;
+        z-index: 5;
+        padding-top: 0;
+        border-top: none;
+      }
+
+      #banner h1 {
+        font-size: clamp(1.8em, 4vw, 3.2em);
+        font-weight: 700;
+        color: #fff;
+        line-height: 1.25;
+        margin-bottom: 0.6em;
+        animation: fadeDown 0.8s ease both;
+      }
+      @keyframes fadeDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      .banner-subtitle {
+        font-size: 1.05em;
+        color: rgba(255,255,255,0.72);
+        margin-bottom: 2.5em;
+        font-weight: 300;
+        animation: fadeDown 0.9s 0.2s ease both;
+      }
+
+      /* CTA buttons */
+      .cta-group {
+        display: flex;
+        gap: 1em;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 3.5em;
+        animation: fadeDown 1s 0.4s ease both;
+      }
+      .btn {
+        display: inline-block;
+        padding: 0.85em 2.2em;
+        border-radius: 50px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 0.9em;
+        letter-spacing: 1px;
+        text-decoration: none;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        box-shadow: 0 4px 18px rgba(102,126,234,0.55);
+      }
+      .btn-secondary {
+        background: rgba(255,255,255,0.1);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.35);
+        backdrop-filter: blur(6px);
+      }
+      .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.35); }
+      .btn:active { transform: translateY(-1px); }
+
+      /* Info cards inside banner */
+      #banner .flex {
+        display: flex;
+        justify-content: center;
+        gap: 0;
+        flex-wrap: wrap;
+        animation: fadeDown 1s 0.6s ease both;
+      }
+      #banner .flex div {
+        background: rgba(255,255,255,0.07);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 16px;
+        padding: 1.6em 2.4em;
+        margin: 0.5em;
+        min-width: 200px;
+        transition: transform 0.3s ease, background 0.3s ease;
+      }
+      #banner .flex div:hover {
+        transform: translateY(-6px);
+        background: rgba(255,255,255,0.12);
+      }
+      #banner .flex div h3 {
+        color: #7eb3ff;
+        font-size: 0.85em;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 0.5em;
+        font-weight: 600;
+      }
+      #banner .flex div p {
+        color: rgba(255,255,255,0.8);
+        font-size: 0.9em;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      /* ── Stats bar ── */
+      .stats-bar {
+        background: #fff;
+        padding: 2.5em 1em;
+        box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+        display: flex;
+        justify-content: center;
+        gap: 4em;
+        flex-wrap: wrap;
+      }
+      .stat-item { text-align: center; }
+      .stat-number {
+        font-size: 2.4em;
+        font-weight: 700;
+        color: #667eea;
+        display: block;
+        line-height: 1;
+      }
+      .stat-label {
+        font-size: 0.82em;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-top: 6px;
+        display: block;
+      }
+
+      /* ── About section ── */
+      #three.wrapper {
+        padding: 5em 2em;
+        background: #f8f9ff;
+      }
+      #three .inner { max-width: 1100px; margin: 0 auto; }
+
+      .section-title {
+        text-align: center;
+        font-size: 2em;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 0.4em;
+      }
+      .section-divider {
+        width: 60px; height: 4px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        border-radius: 2px;
+        margin: 0 auto 3em;
+      }
+
+      #three .flex.flex-2 {
+        display: flex;
+        gap: 2.5em;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      #three article {
+        flex: 1 1 320px;
+        max-width: 500px;
+        background: #fff;
+        border-radius: 20px;
+        padding: 2.5em;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+        border: 1px solid rgba(102,126,234,0.1);
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      #three article.visible {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+      #three article:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(102,126,234,0.18);
+      }
+
+      .image.round {
+        text-align: center;
+        margin-bottom: 1.5em;
+      }
+      .image.round img {
+        border-radius: 50%;
+        width: 120px !important;
+        height: 120px !important;
+        object-fit: cover;
+        border: 4px solid #667eea;
+        box-shadow: 0 4px 20px rgba(102,126,234,0.3);
+        transition: transform 0.35s ease;
+      }
+      #three article:hover .image.round img { transform: scale(1.08) rotate(3deg); }
+
+      #three article header h3 {
+        font-size: 1.15em;
+        font-weight: 600;
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 0.8em;
+      }
+      #three article p {
+        font-size: 0.92em;
+        color: #555;
+        line-height: 1.75;
+        text-align: center;
+      }
+
+      /* ── Footer ── */
+      footer.site-footer {
+        background: linear-gradient(135deg, #0f2027, #2c5364);
+        color: rgba(255,255,255,0.7);
+        text-align: center;
+        padding: 2.5em 1em;
+        font-size: 0.9em;
+        letter-spacing: 0.5px;
+      }
+      footer.site-footer span { color: #ff6584; }
+
+      /* Remove old HR + center footer */
+      hr.new1 { display: none !important; }
+      body > center { display: none !important; }
+
+      /* ── Responsive tweaks ── */
+      @media (max-width: 768px) {
+        #banner { padding: 6em 1em 5em; }
+        .stats-bar { gap: 2em; }
+        #three article { padding: 2em; }
+      }
+    </style>
   </head>
   <body>
     <!-- Header -->
     <header id="header">
       <div class="inner">
-        <!--<a href="index.html" class="logo"><strong> NIT Raipur</strong></a>-->
-        <div style="width: 10%; float: left">
-          <img src="logo.jpeg" align="left" width="100" height="100" />
+        <div style="width:80px; float:left; line-height:3.25em;">
+          <img src="logo.jpeg" alt="IICC Logo" height="48" width="48"
+               style="border-radius:50%; border:2px solid rgba(255,255,255,0.4); vertical-align:middle;" />
         </div>
         <nav id="nav">
-          <a href="index.html">Home</a> <a href="dgiOneView.html">Student</a>
+          <a href="index.html">Home</a>
+          <a href="dgiOneView.html">Student</a>
           <a href="adminLogin.html">Admin</a>
         </nav>
-        <a href="#navPanel" class="navPanelToggle"
-          ><span class="fa fa-bars"></span
-        ></a>
+        <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
       </div>
     </header>
 
-    <!-- Banner -->
+    <!-- Banner / Hero -->
     <section id="banner">
+      <!-- Particle layer -->
+      <div class="particles" id="particles"></div>
+
       <div class="inner">
-        <header>
-          <h1>Welcome to Intern Institute Computer Centre,Nagpur</h1>
-        </header>
+        <h1>Welcome to IICC, RTMNU Nagpur</h1>
+        <p class="banner-subtitle">Inter Institutional Computer Centre &mdash; Student Result Management System</p>
+
+        <div class="cta-group">
+          <a href="dgiOneView.html" class="btn btn-primary">🎓 Check My Result</a>
+          <a href="adminLogin.html" class="btn btn-secondary">🔐 Admin Portal</a>
+        </div>
 
         <div class="flex">
           <div>
             <h3>Address</h3>
-            <p>
-              Mahatma Jotiba Phule Education Campus, Amravati Road, <br />
-              Amravati Rd, Nagpur, Maharashtra 440023
-            </p>
+            <p>Mahatma Jotiba Phule Education Campus,<br>Amravati Rd, Nagpur, Maharashtra 440023</p>
           </div>
-
           <div>
-            <h3>Contact Number</h3>
+            <h3>Contact</h3>
             <p>07122 500-378</p>
           </div>
-
           <div>
-            <h3>Email Address</h3>
+            <h3>Email</h3>
             <p>info@vidyarthimitra.org</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Three -->
-    <section id="three" class="wrapper align-center">
+    <!-- Stats bar -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-number" data-target="50000">0</span>
+        <span class="stat-label">Students Enrolled</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="300">0</span>
+        <span class="stat-label">Affiliated Colleges</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="120">0</span>
+        <span class="stat-label">Programmes Offered</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="1923">0</span>
+        <span class="stat-label">Est. Year</span>
+      </div>
+    </div>
+
+    <!-- About -->
+    <section id="three" class="wrapper">
       <div class="inner">
+        <h2 class="section-title">About Us</h2>
+        <div class="section-divider"></div>
         <div class="flex flex-2">
           <article>
             <div class="image round">
-              <img src="rtmnu1.jpg" alt="Pic 01" />
+              <img src="rtmnu1.jpg" alt="Rashtrasant Tukadoji Maharaj" />
             </div>
             <header>
-              <h3>Sant.Rashtrasant tukdoji maharaj</h3>
+              <h3>Sant. Rashtrasant Tukdoji Maharaj</h3>
             </header>
             <p>
-              Rashtrasant Tukadoji Maharaj Nagpur University (RTMNU), formerly
-              Nagpur University, is a public state university located in Nagpur,
-              Maharashtra. It is one of India's oldest universities, as well as
-              the second oldest in Maharashtra. It is named after Rashtrasant
-              Tukdoji Maharaj, a spiritual leader, orator, and musician from
-              Vidarbha. The university is a member of the Association of Indian
-              Universities and the Association of Commonwealth Universities
+              Rashtrasant Tukadoji Maharaj Nagpur University (RTMNU) is one of
+              India's oldest public state universities located in Nagpur,
+              Maharashtra. Named after the revered spiritual leader and musician
+              from Vidarbha, it is a proud member of the Association of Indian
+              Universities and the Association of Commonwealth Universities.
             </p>
           </article>
           <article>
             <div class="image round">
-              <img src="logo.jpeg" width="100" height="100" alt="Pic 02" />
+              <img src="logo.jpeg" alt="IICC Logo" />
             </div>
             <header>
-              <h3>About IICC RTMNU,Nagpur</h3>
+              <h3>About IICC, RTMNU Nagpur</h3>
             </header>
             <p>
-              The Inter Institutional Computer Centre (IICC) of Nagpur
-              University is a research and development centre that provides
-              computing services to the university. It offers various courses in
-              computer science, software engineering, networking technologies,
-              database management systems and other related fields. IICC also
-              has its own dedicated server for hosting websites and applications
-              developed by students or faculty members. In addition to this, it
-              provides technical support for hardware maintenance as well as
-              network security solutions.
+              The Inter Institutional Computer Centre (IICC) is the research and
+              development hub of Nagpur University providing cutting-edge
+              computing services. It delivers courses in computer science,
+              software engineering, networking, and database management systems,
+              while maintaining a dedicated server infrastructure for hosting
+              university applications and providing technical support.
             </p>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p>All Rights Reserved &copy; 2024 &nbsp;|&nbsp; Developed by <span>Vaibhao Kamble</span> &nbsp;|&nbsp; IICC, RTMNU Nagpur</p>
+    </footer>
+
     <!-- Scripts -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/skel.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
-    <hr class="new1" />
-    <center>
-      <h1>All Right Reserved @Vaibhao Kamble</h1>
-    </center>
+
+    <script>
+      /* ── Particle generator ── */
+      (function () {
+        var container = document.getElementById('particles');
+        if (!container) return;
+        for (var i = 0; i < 35; i++) {
+          var dot = document.createElement('div');
+          dot.className = 'particle';
+          var size = Math.random() * 4 + 2;
+          var x    = Math.random() * 100;
+          var dur  = Math.random() * 20 + 10;
+          var del  = Math.random() * 15;
+          dot.style.cssText = [
+            'width:'  + size + 'px',
+            'height:' + size + 'px',
+            'left:'   + x    + '%',
+            'bottom: -10px',
+            'opacity:' + (Math.random() * 0.5 + 0.2),
+            'animation-duration:' + dur + 's',
+            'animation-delay:-'   + del + 's'
+          ].join(';');
+          container.appendChild(dot);
+        }
+        /* Add keyframe dynamically for particles */
+        var style = document.createElement('style');
+        style.textContent = '@keyframes particleDrift{0%{transform:translateY(0) scale(1);}100%{transform:translateY(-110vh) scale(0.4);}}';
+        document.head.appendChild(style);
+      }());
+
+      /* ── Animated counters ── */
+      function animateCounters() {
+        document.querySelectorAll('.stat-number').forEach(function (el) {
+          var target = parseInt(el.dataset.target, 10);
+          var start  = 0;
+          var step   = Math.ceil(target / 80);
+          var timer  = setInterval(function () {
+            start += step;
+            if (start >= target) { start = target; clearInterval(timer); }
+            el.textContent = start.toLocaleString();
+          }, 20);
+        });
+      }
+
+      /* ── Intersection Observer: cards & counters ── */
+      var statsBar   = document.querySelector('.stats-bar');
+      var articles   = document.querySelectorAll('#three article');
+      var countersRun = false;
+
+      if ('IntersectionObserver' in window) {
+        var statsObs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting && !countersRun) {
+              countersRun = true;
+              animateCounters();
+            }
+          });
+        }, { threshold: 0.3 });
+        if (statsBar) statsObs.observe(statsBar);
+
+        var cardObs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('visible'); }
+          });
+        }, { threshold: 0.15 });
+        articles.forEach(function (a) { cardObs.observe(a); });
+      } else {
+        /* Fallback for older browsers */
+        animateCounters();
+        articles.forEach(function (a) { a.classList.add('visible'); });
+      }
+    </script>
   </body>
 </html>

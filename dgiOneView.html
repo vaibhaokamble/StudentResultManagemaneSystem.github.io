@@ -1,21 +1,39 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">   
-  <link rel="stylesheet" type="text/css" href="style.css">  
-  <style>.login-box{
-    height: 400px;
-   
-}</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Result Search – RTMNU Nagpur</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .result-img {
+      display: block;
+      margin: 0 auto 20px;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+      animation: imgPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    }
+    @keyframes imgPop {
+      from { opacity: 0; transform: scale(0.7); }
+      to   { opacity: 1; transform: scale(1);   }
+    }
+  </style>
 </head>
-<body></body>
+<body>
+  <!-- Animated floating circles -->
+  <ul class="circles">
+    <li></li><li></li><li></li><li></li><li></li>
+    <li></li><li></li><li></li><li></li><li></li>
+  </ul>
+
+  <div class="login-box">
+    <img src="result.png" width="160" height="120" class="result-img" alt="Result">
+    <h1>Check Result</h1>
     <form method="post" action="studentHome.jsp">
-    <div class="login-box">
-    <center><img src="result.png" width="200" height="150"></center>        
-           
-            <input type="text" name="rollNo" placeholder="Enter Roll Number" required="required">
-            <input type="submit" name="submit" value="Search">    
-            </form>
-              <center><h1><a href="index.html">Back</a></h1></center>
-        </div>   
-   
+      <p>Roll Number</p>
+      <input type="text" name="rollNo" placeholder="Enter Roll Number" required>
+      <input type="submit" value="Search Result">
+    </form>
+    <center><h1><a href="index.html">← Back to Home</a></h1></center>
+  </div>
+</body>
 </html>
